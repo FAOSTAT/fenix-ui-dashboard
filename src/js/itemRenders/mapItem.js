@@ -38,8 +38,8 @@ define([
 
         var process = this._getProcess();
 
-        this.bridge.query(process)
-            .then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));
+        this.bridge.query(process).then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));
+
     };
 
     MapItem.prototype._onQuerySuccess = function (model) {
@@ -47,13 +47,6 @@ define([
         this.mapCreator.addLayer(model);
         this.mapCreator.addCountryBoundaries();
 
-    };
-
-    MapItem.prototype.renderCharts = function(creator) {
-
-        console.log(creator)
-
-        creator.render( this.o.config);
     };
 
     MapItem.prototype._onQueryError = function () {

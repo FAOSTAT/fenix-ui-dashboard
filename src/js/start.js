@@ -22,16 +22,16 @@ define([
             container: '[data-role="grid-container"]',
 
             config: {
-                itemSelector: '.fx-ds-item',
+                //itemSelector: '.fx-ds-item',
                 percentPosition: true,
-                rowHeight: '.fx-ds-item',
+                //rowHeight: '.fx-ds-item',
                 transitionDuration: 0
             }
         },
 
         bridge: {
 
-            type: "d3p"
+            type: "faostat"
 
         }
 
@@ -66,7 +66,7 @@ define([
 
     DS.prototype.render = function (o) {
 
-        $.extend(true, this.o, o);
+        this.o = $.extend(true, {}, this.o, o);
 
         //Init auxiliary variables
         this._initVariables();
@@ -74,6 +74,8 @@ define([
         this._bindEventListeners();
 
         this._initComponents();
+
+        this._applyDefaultFilter(this.o.filter || {});
 
         this._renderItems();
 
@@ -87,6 +89,19 @@ define([
         this._destroyItems();
 
         this._renderItems(filter);
+    };
+
+    DS.prototype._applyDefaultFilter = function (filter) {
+
+        if (this.o.items && Array.isArray(this.o.items)) {
+
+            _.each(this.o.items, _.bind(function (item) {
+
+                item.filter = $.extend(true, {}, item.filter, filter);
+
+            }, this));
+        }
+
     };
 
     DS.prototype._renderItems = function (filter) {
@@ -109,32 +124,17 @@ define([
         var originalFilter = item.filter || [],
             allowedFilter = item.allowedFilter;
 
-
-
         if (!allowedFilter) {
             return originalFilter;
         }
 
         _.each(filter, function (f) {
-            _.each(f, function (filterValue, filterKey) {
-                if (allowedFilter.indexOf(filterKey) >= 0) {
-                    _.each(originalFilter, function (of) {
-                        if (of.hasOwnProperty("parameters")
-                            && of.parameters.hasOwnProperty("rows")) {
-                                // checks if the filter has to be removed
-                                if (filterValue.hasOwnProperty("removeFilter")) {
-                                    delete of.parameters.rows[filterKey];
-                                }
-                                // else add the filter
-                                else {
-                                    of.parameters.rows[filterKey] = filterValue;
-                                }
-                        }
-                    });
-
-                }
-            });
-
+            var filterKey = f.id,
+                parameter = f.parameter,
+                codes = f.codes;
+            if (allowedFilter.indexOf(filterKey) >= 0) {
+                originalFilter[parameter] = codes;
+            }
         });
 
         return originalFilter;
@@ -169,13 +169,18 @@ define([
 
     DS.prototype._compileItemTemplate = function (item) {
 
+        // TODO: remove it from here. Quick fix for the fluid layout
+        item.id = item.id || Math.round((Math.pow(36, 10 + 1) - Math.random() * Math.pow(36, 10))).toString(36).slice(1);
+        item.container = item.container || "#" + item.id;
+        item.config.container = item.container;
+
+
         var template = Handlebars.compile(itemTemplate);
 
         return $(template(item))[0];
     };
 
     DS.prototype._unbindEventListeners = function () {
-
 
     };
 
