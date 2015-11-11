@@ -4,5 +4,9 @@ define(function () {
 
     return {
 
+        // TODO: do it with a merge of faostat events
+        LOADING_SHOW : 'fs.loading.show',
+        LOADING_HIDE : 'fs.loading.hide'
+
     }
 });

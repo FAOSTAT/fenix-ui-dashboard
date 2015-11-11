@@ -3,8 +3,10 @@ define([
     'jquery',
     'underscore',
     'fx-c-c/start',
+    // TODO: this is should be
+    'fx-ds/config/events',
     'amplify'
-], function ($, _, ChartCreator) {
+], function ($, _, ChartCreator, E) {
 
     'use strict';
 
@@ -36,6 +38,8 @@ define([
 
         var process = this._getProcess();
 
+        amplify.publish(E.LOADING_SHOW, {container: this.o.config.container});
+
         this.bridge.query(process)
             .then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));
     };
@@ -56,7 +60,7 @@ define([
 
     ChartItem.prototype.renderCharts = function(creator) {
 
-        creator.render( this.o.config);
+        creator.render(this.o.config);
     };
 
     ChartItem.prototype._onQueryError = function () {
