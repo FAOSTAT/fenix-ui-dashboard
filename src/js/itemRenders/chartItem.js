@@ -75,6 +75,9 @@ define([
     ChartItem.prototype.destroy = function () {
 
        this._unbindEventListeners();
+
+       // TODO: call the chartCreator destroy
+       this.$el.remove();
     };
 
     return ChartItem;
