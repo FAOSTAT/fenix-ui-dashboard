@@ -85,6 +85,7 @@ define([
 
     LM.prototype._addItemFluidLayout = function ( html, item ) {
 
+        console.log(item);
         this.grid.addItem(html);
 
     };
