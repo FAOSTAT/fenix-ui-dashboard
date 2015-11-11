@@ -38,7 +38,8 @@ define([
 
         var process = this._getProcess();
 
-        this.bridge.query(process).then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));
+        this.bridge.query(process)
+            .then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));
 
     };
 

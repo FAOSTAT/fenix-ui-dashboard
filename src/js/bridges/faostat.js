@@ -38,9 +38,8 @@ define([
 
     FAOSTAT_bridge.prototype.query = function ( filter ) {
 
-        console.log(this.faostatAPI);
-
         return this.faostatAPI.data(filter);
+
     };
 
     return FAOSTAT_bridge;
