@@ -97,6 +97,11 @@ define([
 
             _.each(this.o.items, _.bind(function (item) {
 
+                // add lang to the item if exists
+                if (this.o.lang) {
+                    item.lang = this.o.lang;
+                }
+
                 item.filter = $.extend(true, {}, item.filter, filter);
 
             }, this));

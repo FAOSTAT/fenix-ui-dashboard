@@ -46,14 +46,19 @@ define([
                 break;
             case 'fluid' :
 
+                console.log(template);
                 this.$container.html(template);
 
-                //packery
-                var gridConf = $.extend(true, this.o.grid, {
-                    container: this.$container.find(this.o.grid.container)[0]
-                });
+                this.$gridContainer = this.$container.find(this.o.grid.container);
 
-                this.grid = new FluidGrid().init(gridConf).render();
+                console.log(this.$gridContainer);
+
+                //packery
+                //var gridConf = $.extend(true, this.o.grid, {
+                //    container: this.$container.find(this.o.grid.container)[0]
+                //});
+
+                //this.grid = new FluidGrid().init(gridConf).render();
 
                 this.addItem = this._addItemFluidLayout;
 
@@ -86,7 +91,9 @@ define([
     LM.prototype._addItemFluidLayout = function ( html, item ) {
 
         console.log(item);
-        this.grid.addItem(html);
+        //this.grid.addItem(html);
+
+        this.$gridContainer.append(html);
 
     };
 
