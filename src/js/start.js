@@ -20,6 +20,8 @@ define([
 
         lang: 'en',
 
+        render: false,
+
         grid: {
             container: '[data-role="grid-container"]',
 
@@ -66,6 +68,7 @@ define([
 
     };
 
+
     DS.prototype.render = function (o) {
 
         this.o = $.extend(true, {}, this.o, o);
@@ -79,9 +82,12 @@ define([
 
         this._applyDefaultFilter(this.o.filter || {});
 
-        this._renderItems();
+        if (this.o.render === true) {
+            this.render();
+        }
 
     };
+
 
     DS.prototype.filter = function (filter) {
 
@@ -170,7 +176,7 @@ define([
                 originalTemplate[key] = t(labels);
 
             });
-            
+
             return $.extend(true, {}, item.config.template, originalTemplate || {});
 
         }else {
