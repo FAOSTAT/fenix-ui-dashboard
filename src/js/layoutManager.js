@@ -46,12 +46,9 @@ define([
                 break;
             case 'fluid' :
 
-                console.log(template);
                 this.$container.html(template);
 
                 this.$gridContainer = this.$container.find(this.o.grid.container);
-
-                console.log(this.$gridContainer);
 
                 //packery
                 //var gridConf = $.extend(true, this.o.grid, {

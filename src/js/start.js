@@ -18,6 +18,8 @@ define([
 
         layout: "fluid",
 
+        lang: 'en',
+
         grid: {
             container: '[data-role="grid-container"]',
 
@@ -101,6 +103,9 @@ define([
                 if (this.o.lang) {
                     item.lang = this.o.lang;
                 }
+                if (this.o.labels) {
+                    item.labels = $.extend(true, {}, this.o.labels, item.labels);
+                }
 
                 item.filter = $.extend(true, {}, item.filter, filter);
 
@@ -117,12 +122,63 @@ define([
 
                 item.filter = this._prepareFilter(item, filter);
 
+                item.config.template = this._prepareLabels(item, filter);
+
                 this._addItem(item);
 
             }, this));
         }
 
     };
+
+
+    DS.prototype._prepareLabels = function (item, filter) {
+
+        // TODO: check if exists
+        if (item.hasOwnProperty('labels')) {
+            var originalTemplate = $.extend(true, {}, item.labels.template) || {},
+                labels = $.extend(true, {}, item.labels.default) || {},
+                lang = item.lang,
+                deniedTemplateFilter = item.deniedTemplateFilter || [];
+
+
+            _.each(labels, function(label, key) {
+
+                if ( typeof label === 'object') {
+                    // TODO: what happens if the lang is not set properly?
+                    labels[key] = labels[key][lang] || '';
+                }
+
+            });
+
+            _.each(filter, function (f) {
+                var filterKey = f.id,
+                // TODO: check if label is string or array
+                    label = f.labels;
+
+                if (deniedTemplateFilter.indexOf(filterKey) < 0) {
+                    if (label) {
+                        labels[filterKey] = label;
+                    }
+                }
+            });
+
+            // overwriting otiginal template
+            _.each(originalTemplate, function(template, key) {
+
+                var t = Handlebars.compile(template[lang] || template);
+                originalTemplate[key] = t(labels);
+
+            });
+            
+            return $.extend(true, {}, item.config.template, originalTemplate || {});
+
+        }else {
+            return item.config.template;
+        }
+
+    };
+
 
     DS.prototype._prepareFilter = function (item, filter) {
 
@@ -178,7 +234,6 @@ define([
         item.id = item.id || Math.round((Math.pow(36, 10 + 1) - Math.random() * Math.pow(36, 10))).toString(36).slice(1);
         item.container = item.container || "#" + item.id;
         item.config.container = item.container;
-
 
         var template = Handlebars.compile(itemTemplate);
 
