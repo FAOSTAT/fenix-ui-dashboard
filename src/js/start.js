@@ -80,7 +80,7 @@ define([
 
         this._initComponents();
 
-        this._applyDefaultFilter(this.o.filter || {});
+        this._applyDefaultFilter(this.o.defaultFilter || {});
 
         if (this.o.render === true) {
             this.render();
@@ -113,7 +113,7 @@ define([
                     item.labels = $.extend(true, {}, this.o.labels, item.labels);
                 }
 
-                item.filter = $.extend(true, {}, item.filter, filter);
+                item.filter = $.extend(true, {}, filter, item.filter);
 
             }, this));
         }
