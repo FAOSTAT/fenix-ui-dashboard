@@ -23,8 +23,6 @@ define([
 
     function FAOSTAT_bridge(options) {
 
-        console.log(options);
-
         this.faostatAPI = new FAOSTATClientAPI();
 
         this.o = $.extend(true, {}, defaultOptions, options);
@@ -36,12 +34,14 @@ define([
 
         var requestType = (this.o.bridge)? (this.o.bridge.requestType || this.o.requestType): this.o.requestType;
 
+        log.info(requestType);
+
         if ( this.faostatAPI.hasOwnProperty(requestType)) {
             return this.faostatAPI[requestType](filter);
         }else{
             log.error(requestType + " not present in faostatAPI");
+            throw new Error(requestType + " not present in faostatAPI");
         }
-
 
     };
 
