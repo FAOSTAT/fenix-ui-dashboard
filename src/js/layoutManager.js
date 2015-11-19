@@ -7,8 +7,9 @@ define([
     'fx-ds/config/config',
     'fx-ds/config/config-default',
     "text!fx-ds/templates/dashboard.hbs",
-    "fx-common/structures/fx-fluid-grid"
-], function ($, _, Err, E,  C, DC, template, FluidGrid) {
+    "fx-common/structures/fx-fluid-grid",
+    "loglevel",
+], function ($, _, Err, E,  C, DC, template, FluidGrid, log) {
 
     'use strict';
 
@@ -77,7 +78,7 @@ define([
         var $container = $(item.container);
 
         if ($container.length === 0) {
-            console.error(item);
+            log.error(Err.INVALID_ITEM_CONTAINER_ON_INJECTED_LAYOUT, item);
             throw new Error(Err.INVALID_ITEM_CONTAINER_ON_INJECTED_LAYOUT)
         }
 
@@ -87,7 +88,7 @@ define([
 
     LM.prototype._addItemFluidLayout = function ( html, item ) {
 
-        console.log(item);
+        //log.log(item);
         //this.grid.addItem(html);
 
         this.$gridContainer.append(html);

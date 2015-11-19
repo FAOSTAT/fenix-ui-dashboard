@@ -5,8 +5,9 @@ define([
     'fx-c-c/start',
     // TODO: this is should be
     'fx-ds/config/events',
+    'loglevel',
     'amplify'
-], function ($, _, ChartCreator, E) {
+], function ($, _, ChartCreator, E, log) {
 
     'use strict';
 
@@ -45,8 +46,6 @@ define([
 
         amplify.publish(E.LOADING_SHOW, {container: this.o.config.container});
 
-        console.log(this);
-
         this.bridge.query(process)
             .then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));
     };
@@ -72,7 +71,10 @@ define([
 
     ChartItem.prototype._onQueryError = function () {
 
-        alert("Query error")
+        log.error("Query error", this);
+
+        // throw error
+
     };
 
     ChartItem.prototype._unbindEventListeners = function () {
