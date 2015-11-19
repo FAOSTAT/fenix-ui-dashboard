@@ -15,7 +15,6 @@ define([
     };
 
     function ChartItem(options) {
-
         this.o = $.extend(true, {}, defaultOptions, options);
 
         this._bindEventListeners();
@@ -34,11 +33,19 @@ define([
 
     };
 
+    ChartItem.prototype._getBridge = function () {
+
+        return this.o.bridge || [];
+
+    };
+
     ChartItem.prototype.render = function () {
 
         var process = this._getProcess();
 
         amplify.publish(E.LOADING_SHOW, {container: this.o.config.container});
+
+        console.log(this);
 
         this.bridge.query(process)
             .then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));

@@ -109,9 +109,16 @@ define([
                 if (this.o.lang) {
                     item.lang = this.o.lang;
                 }
+
                 if (this.o.labels) {
                     item.labels = $.extend(true, {}, this.o.labels, item.labels);
                 }
+
+
+                if (this.o.bridge) {
+                    item.bridge = $.extend(true, {}, this.o.bridge, item.bridge);
+                }
+
 
                 item.filter = $.extend(true, {}, filter, item.filter);
 
@@ -215,9 +222,10 @@ define([
         this.layout.addItem(itemTmpl, item);
 
         //Get bridge
-        var bridge = this.bridgeFactory.getBridge(this.o, item);
+        var bridge = this.bridgeFactory.getBridge(item);
 
         //Get item render
+        //var renderer = this.itemFactory.getItemRender(this.o item);
         var renderer = this.itemFactory.getItemRender(item);
 
         //inject bridge and template within render

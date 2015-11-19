@@ -9,15 +9,21 @@ define([
     //'fx-ds/config/d3p_filters',
     //'faostatclientAPI',
     'faostatapiclient',
-    'q',
+    'loglevel',
     "amplify"
-], function ($, C, DC, E, Err, FAOSTATClientAPI, Q) {
+], function ($, C, DC, E, Err, FAOSTATClientAPI, log) {
 
     'use strict';
 
-    var defaultOptions = { };
+    var defaultOptions = {
+
+        requestType: "data" // data/rankings
+
+    };
 
     function FAOSTAT_bridge(options) {
+
+        console.log(options);
 
         this.faostatAPI = new FAOSTATClientAPI();
 
@@ -26,19 +32,16 @@ define([
         return this;
     }
 
-    FAOSTAT_bridge.prototype.getFirstPage = function () {
+    FAOSTAT_bridge.prototype.query = function (filter) {
 
-        return this.getPage(1);
-    };
+        var requestType = (this.o.bridge)? (this.o.bridge.requestType || this.o.requestType): this.o.requestType;
 
-    FAOSTAT_bridge.prototype.getPage = function (page) {
+        if ( this.faostatAPI.hasOwnProperty(requestType)) {
+            return this.faostatAPI[requestType](filter);
+        }else{
+            log.error(requestType + " not present in faostatAPI");
+        }
 
-        return this.getPage(page);
-    };
-
-    FAOSTAT_bridge.prototype.query = function ( filter ) {
-
-        return this.faostatAPI.data(filter);
 
     };
 
