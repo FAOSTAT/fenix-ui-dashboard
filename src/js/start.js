@@ -1,6 +1,7 @@
 /*global define, amplify, console*/
 define([
     "jquery",
+    "loglevel",
     "underscore",
     'fx-ds/itemFactory',
     'fx-ds/bridgeFactory',
@@ -10,7 +11,7 @@ define([
     "handlebars",
     "amplify",
     "bootstrap"
-], function ($, _, ItemFactory, BridgeFactory, Layout, template, itemTemplate, Handlebars) {
+], function ($, log, _, ItemFactory, BridgeFactory, Layout, template, itemTemplate, Handlebars) {
 
     'use strict';
 
@@ -21,6 +22,8 @@ define([
         lang: 'en',
 
         render: false,
+
+        isOnload: false,
 
         grid: {
             container: '[data-role="grid-container"]',
@@ -83,16 +86,17 @@ define([
         this._applyDefaultFilter(this.o.defaultFilter || {});
 
         if (this.o.render === true) {
-            this.render();
+            this._renderItems();
         }
 
     };
 
 
-    DS.prototype.filter = function (filter) {
+    DS.prototype.filter = function (filter, isOnLoad) {
 
-        //update base filter and render items
-        //this.o.filter = filter;
+        if (isOnLoad !== undefined && isOnLoad !== null) {
+            this.o.isOnLoad = isOnLoad;
+        }
 
         this._destroyItems();
 
@@ -119,7 +123,6 @@ define([
                     item.bridge = $.extend(true, {}, this.o.bridge, item.bridge);
                 }
 
-
                 item.filter = $.extend(true, {}, filter, item.filter);
 
             }, this));
@@ -128,6 +131,8 @@ define([
     };
 
     DS.prototype._renderItems = function (filter) {
+
+        log.info(filter)
 
         if (this.o.items && Array.isArray(this.o.items)) {
 
@@ -152,7 +157,9 @@ define([
             var originalTemplate = $.extend(true, {}, item.labels.template) || {},
                 labels = $.extend(true, {}, item.labels.default) || {},
                 lang = item.lang,
-                deniedTemplateFilter = item.deniedTemplateFilter || [];
+                isOnLoad = this.o.isOnLoad,
+                deniedTemplateFilter = item.deniedTemplateFilter || [],
+                deniedOnLoadFilter = item.deniedOnLoadFilter || [];
 
 
             _.each(labels, function(label, key) {
@@ -169,9 +176,15 @@ define([
                 // TODO: check if label is string or array
                     label = f.labels;
 
-                if (deniedTemplateFilter.indexOf(filterKey) < 0) {
+                if (deniedTemplateFilter.indexOf(filterKey) < 0 && (isOnLoad && deniedOnLoadFilter.indexOf(filterKey) < 0)) {
+                    // TODO: NOT TESTED
                     if (label) {
-                        labels[filterKey] = label;
+                        if (!isOnLoad) {
+                            labels[filterKey] = label;
+                        }
+                        else if(isOnLoad && deniedOnLoadFilter.indexOf(filterKey) < 0) {
+                            labels[filterKey] = label;
+                        }
                     }
                 }
             });
@@ -196,7 +209,11 @@ define([
     DS.prototype._prepareFilter = function (item, filter) {
 
         var originalFilter = item.filter || [],
-            allowedFilter = item.allowedFilter;
+            allowedFilter = item.allowedFilter,
+            isOnLoad = this.o.isOnLoad,
+            deniedOnLoadFilter = item.deniedOnLoadFilter || [];
+
+        log.info(isOnLoad, deniedOnLoadFilter)
 
         if (!allowedFilter) {
             return originalFilter;
@@ -206,8 +223,14 @@ define([
             var filterKey = f.id,
                 parameter = f.parameter,
                 codes = f.codes;
+
             if (allowedFilter.indexOf(filterKey) >= 0) {
-                originalFilter[parameter] = codes;
+                if (!isOnLoad) {
+                    originalFilter[parameter] = codes;
+                }
+                else if(isOnLoad && deniedOnLoadFilter.indexOf(filterKey) < 0) {
+                    originalFilter[parameter] = codes;
+                }
             }
         });
 
