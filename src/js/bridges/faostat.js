@@ -34,9 +34,7 @@ define([
 
         var requestType = (this.o.bridge)? (this.o.bridge.requestType || this.o.requestType): this.o.requestType;
 
-        log.info(requestType);
-
-        if ( this.faostatAPI.hasOwnProperty(requestType)) {
+        if ( typeof this.faostatAPI[requestType] == 'function') {
             return this.faostatAPI[requestType](filter);
         }else{
             log.error(requestType + " not present in faostatAPI");
