@@ -1,13 +1,13 @@
 /*global define, amplify */
 define([
     'jquery',
+    'loglevel',
     'underscore',
     'fx-c-c/start',
     // TODO: this is should be
     'fx-ds/config/events',
-    'loglevel',
     'amplify'
-], function ($, _, ChartCreator, E, log) {
+], function ($,log,  _, ChartCreator, E) {
 
     'use strict';
 

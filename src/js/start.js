@@ -132,8 +132,6 @@ define([
 
     DS.prototype._renderItems = function (filter) {
 
-        log.info(filter)
-
         if (this.o.items && Array.isArray(this.o.items)) {
 
             _.each(this.o.items, _.bind(function (item) {
@@ -212,8 +210,6 @@ define([
             allowedFilter = item.allowedFilter,
             isOnLoad = this.o.isOnLoad,
             deniedOnLoadFilter = item.deniedOnLoadFilter || [];
-
-        log.info(isOnLoad, deniedOnLoadFilter)
 
         if (!allowedFilter) {
             return originalFilter;
