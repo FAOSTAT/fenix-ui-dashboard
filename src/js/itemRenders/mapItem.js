@@ -66,7 +66,8 @@ define([
 
     MapItem.prototype._onQueryError = function () {
 
-        alert("Query error")
+        log.error("Query error")
+
     };
 
     MapItem.prototype.enableExport = function () {
@@ -83,16 +84,7 @@ define([
 
         var process = this._getProcess();
 
-        log.info(E)
         amplify.publish(E.EXPORT_DATA, process);
-
-        // TODO: create a generic export function (call it with amplify?)
-
-        // overrride the output_type for the export
-/*        process.output_type = this.o.output_type;
-        this.bridge.query(process).then(function(c) {
-            log.info(c)
-        });*/
 
     };
 

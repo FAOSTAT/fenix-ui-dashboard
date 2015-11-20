@@ -15,6 +15,12 @@ define([
 
     };
 
+    var s = {
+
+        EXPORT: '[data-role="export"]'
+
+    };
+
     function ChartItem(options) {
         this.o = $.extend(true, {}, defaultOptions, options);
 
@@ -67,13 +73,32 @@ define([
     ChartItem.prototype.renderCharts = function(creator) {
 
         creator.render(this.o.config);
+
+        this.enableExport();
+
     };
 
     ChartItem.prototype._onQueryError = function () {
 
-        log.error("Query error", this);
+        log.error("Query error")
 
-        // throw error
+    };
+
+    ChartItem.prototype.enableExport = function () {
+
+        var self = this;
+
+        $(this.o.config.container).find(s.EXPORT).on('click', function(e){
+            self.export();
+        });
+
+    };
+
+    ChartItem.prototype.export = function () {
+
+        var process = this._getProcess();
+
+        amplify.publish(E.EXPORT_DATA, process);
 
     };
 
