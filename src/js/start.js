@@ -160,9 +160,12 @@ define([
                 deniedOnLoadFilter = item.deniedOnLoadFilter || [];
 
 
+            log.info(labels)
+
             _.each(labels, function(label, key) {
 
                 if ( typeof label === 'object') {
+                    log.info(labels, key, lang)
                     // TODO: what happens if the lang is not set properly?
                     labels[key] = labels[key][lang] || '';
                 }
@@ -174,9 +177,10 @@ define([
                 // TODO: check if label is string or array
                     label = f.labels;
 
-                if (deniedTemplateFilter.indexOf(filterKey) < 0 && (isOnLoad && deniedOnLoadFilter.indexOf(filterKey) < 0)) {
-                    // TODO: NOT TESTED
+                if (deniedTemplateFilter.indexOf(filterKey) < 0 || (isOnLoad && deniedOnLoadFilter.indexOf(filterKey) < 0)) {
+                    // TODO: NOT TESTED properly
                     if (label) {
+                        log.info(label, filterKey, lang)
                         if (!isOnLoad) {
                             labels[filterKey] = label;
                         }
