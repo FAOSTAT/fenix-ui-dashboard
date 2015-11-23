@@ -250,6 +250,8 @@ define([
         //var renderer = this.itemFactory.getItemRender(this.o item);
         var renderer = this.itemFactory.getItemRender(item);
 
+        log.info(renderer)
+
         //inject bridge and template within render
         $.extend(true, renderer, {
             bridge: bridge,

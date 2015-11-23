@@ -3,9 +3,7 @@ define([
     'jquery',
     'fx-ds/itemRenders/chartItem',
     'fx-ds/itemRenders/mapItem',
-    //'fx-ds/itemRenders/tableItem',
-    // TODO: fix it!!!!!!!!!
-    'fx-ds/itemRenders/mapItem',
+    'fx-ds/itemRenders/tableItem',
     'amplify',
     'bootstrap'
 ], function ($, ChartItem, MapItem, TableItem) {

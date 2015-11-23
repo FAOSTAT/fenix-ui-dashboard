@@ -66,7 +66,7 @@ define([
 
     MapItem.prototype._onQueryError = function () {
 
-        log.error("Query error")
+        log.error("Query error");
 
     };
 

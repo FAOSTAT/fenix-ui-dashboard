@@ -1,10 +1,11 @@
 /*global define, amplify */
 define([
     'jquery',
+    'loglevel',
     'underscore',
-    'fx-t-c/start',
+    'fs-t-c/table',
     'amplify'
-], function ($, _, TableCreator) {
+], function ($, log, _, TableCreator) {
 
     'use strict';
 
@@ -19,6 +20,8 @@ define([
         this._bindEventListeners();
 
         this.tableCreator = new TableCreator();
+
+        log.info(this.tableCreator)
 
     }
 
@@ -35,37 +38,27 @@ define([
 
         var process = this._getProcess();
 
-        this.bridge.query(process)
-            .then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));
+        this.bridge.query(process).then(
+            _.bind(this._onQuerySuccess, this),
+            _.bind(this._onQueryError, this)
+        );
+
     };
 
     TableItem.prototype._onQuerySuccess = function (model) {
 
-        var data = [];
-        for (var i=0; i < 30; i++) {
-             data.push(model.data[i]);
-        }
-
-        //TODO implement
-        var modelTest = {
-            metadata: model.metadata,
-            data: data
-        };
+        log.info(model)
+        log.info(this.o)
 
         this.o.model = model;
-        //this.o.model = modelTest;
 
-        this.tableCreator.render({
-            container: this.o.config.container,
+        log.info(this.o.config);
+
+
+        this.tableCreator.render($.extend(true, {},
+            this.o.config, {
             model: this.o.model
-            /*
-             if you want to override the default configuration,
-             options: {
-             sortable: true
-             }
-             */
-
-        });
+        }));
 
     };
 
@@ -76,7 +69,8 @@ define([
 
     TableItem.prototype._onQueryError = function () {
 
-        alert("Query error")
+        log.error("Query error");
+
     };
 
     TableItem.prototype._unbindEventListeners = function () {
