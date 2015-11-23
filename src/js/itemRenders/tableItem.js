@@ -56,7 +56,7 @@ define([
 
         amplify.publish(E.LOADING_HIDE, {container: this.o.config.container});
 
-        log.info(this.o)
+        //log.info(this.o)
 
         this.tableCreator.render($.extend(true, {},
             this.o.config, {
