@@ -38,6 +38,8 @@ define([
 
         var process = this._getProcess();
 
+        amplify.publish(E.LOADING_SHOW, {container: this.o.config.container});
+
         this.bridge.query(process).then(
             _.bind(this._onQuerySuccess, this),
             _.bind(this._onQueryError, this)
@@ -47,24 +49,15 @@ define([
 
     TableItem.prototype._onQuerySuccess = function (model) {
 
-        log.info(model)
-        log.info(this.o)
+        amplify.publish(E.LOADING_HIDE, {container: this.o.config.container});
 
         this.o.model = model;
-
-        log.info(this.o.config);
-
 
         this.tableCreator.render($.extend(true, {},
             this.o.config, {
             model: this.o.model
         }));
 
-    };
-
-    TableItem.prototype.renderCharts = function(creator) {
-
-        creator.render( this.o.config);
     };
 
     TableItem.prototype._onQueryError = function () {
