@@ -28,8 +28,6 @@ define([
 
         this.tableCreator = new TableCreator();
 
-        log.info(this.tableCreator)
-
     }
 
     TableItem.prototype._bindEventListeners = function () {
@@ -58,11 +56,11 @@ define([
 
         amplify.publish(E.LOADING_HIDE, {container: this.o.config.container});
 
-        this.o.model = model;
+        log.info(this.o)
 
         this.tableCreator.render($.extend(true, {},
             this.o.config, {
-            model: this.o.model
+            model: model
         }));
 
         this.enableExport();
