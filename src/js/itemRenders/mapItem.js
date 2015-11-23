@@ -96,6 +96,9 @@ define([
     MapItem.prototype.destroy = function () {
 
        this._unbindEventListeners();
+
+        this.$el.remove();
+
     };
 
     return MapItem;

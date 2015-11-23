@@ -4,12 +4,19 @@ define([
     'loglevel',
     'underscore',
     'fs-t-c/table',
+    'fx-ds/config/events',
     'amplify'
-], function ($, log, _, TableCreator) {
+], function ($, log, _, TableCreator, E) {
 
     'use strict';
 
     var defaultOptions = {
+
+        };
+
+    var s = {
+
+        EXPORT: '[data-role="export"]'
 
     };
 
@@ -58,6 +65,26 @@ define([
             model: this.o.model
         }));
 
+        this.enableExport();
+
+    };
+
+    TableItem.prototype.enableExport = function () {
+
+        var self = this;
+
+        $(this.o.config.container).find(s.EXPORT).on('click', function(e){
+            self.export();
+        });
+
+    };
+
+    TableItem.prototype.export = function () {
+
+        var process = this._getProcess();
+
+        amplify.publish(E.EXPORT_DATA, process);
+
     };
 
     TableItem.prototype._onQueryError = function () {
@@ -73,6 +100,8 @@ define([
     TableItem.prototype.destroy = function () {
 
        this._unbindEventListeners();
+
+        this.$el.remove();
     };
 
     return TableItem;
