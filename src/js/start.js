@@ -159,13 +159,12 @@ define([
                 deniedTemplateFilter = item.deniedTemplateFilter || [],
                 deniedOnLoadFilter = item.deniedOnLoadFilter || [];
 
-
-            log.info(labels)
+            //log.info(labels)
 
             _.each(labels, function(label, key) {
 
                 if ( typeof label === 'object') {
-                    log.info(labels, key, lang)
+                    //log.info(labels, key, lang)
                     // TODO: what happens if the lang is not set properly?
                     labels[key] = labels[key][lang] || '';
                 }
@@ -180,7 +179,7 @@ define([
                 if (deniedTemplateFilter.indexOf(filterKey) < 0 || (isOnLoad && deniedOnLoadFilter.indexOf(filterKey) < 0)) {
                     // TODO: NOT TESTED properly
                     if (label) {
-                        log.info(label, filterKey, lang)
+                        //log.info(label, filterKey, lang)
                         if (!isOnLoad) {
                             labels[filterKey] = label;
                         }
