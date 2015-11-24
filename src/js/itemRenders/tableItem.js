@@ -42,11 +42,8 @@ define([
 
     TableItem.prototype.render = function () {
 
-        console.log(this.o.hasOwnProperty("model"));
-
-
+        // this is used to switch if a model is gave or not to the widget
         if (this.o.config.hasOwnProperty("model")) {
-            console.log("here");
             this._onQuerySuccess(this.o.config.model);
         }
         else {
