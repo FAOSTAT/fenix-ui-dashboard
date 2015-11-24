@@ -21,7 +21,6 @@ define([
     };
 
     function TableItem(options) {
-
         this.o = $.extend(true, {}, defaultOptions, options);
 
         this._bindEventListeners();
@@ -36,27 +35,38 @@ define([
 
     TableItem.prototype._getProcess = function () {
 
-        return this.o.filter || [];
+        // TODO: leave exportRequest?
+        return this.o.filter || this.o.config.exportRequest || [];
+
     };
 
     TableItem.prototype.render = function () {
 
-        var process = this._getProcess();
+        console.log(this.o.hasOwnProperty("model"));
 
-        amplify.publish(E.LOADING_SHOW, {container: this.o.config.container});
 
-        this.bridge.query(process).then(
-            _.bind(this._onQuerySuccess, this),
-            _.bind(this._onQueryError, this)
-        );
+        if (this.o.config.hasOwnProperty("model")) {
+            console.log("here");
+            this._onQuerySuccess(this.o.config.model);
+        }
+        else {
+
+            // retrieve dinamically the data
+            var process = this._getProcess();
+
+            amplify.publish(E.LOADING_SHOW, {container: this.o.config.container});
+
+            this.bridge.query(process).then(
+                _.bind(this._onQuerySuccess, this),
+                _.bind(this._onQueryError, this)
+            );
+        }
 
     };
 
     TableItem.prototype._onQuerySuccess = function (model) {
 
         amplify.publish(E.LOADING_HIDE, {container: this.o.config.container});
-
-        //log.info(this.o)
 
         this.tableCreator.render($.extend(true, {},
             this.o.config, {
