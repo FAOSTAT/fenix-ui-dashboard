@@ -40,6 +40,12 @@ define([
 
     };
 
+    ChartItem.prototype._getOptions = function () {
+
+        return this.o.bridge ||{};
+
+    };
+
     ChartItem.prototype._getBridge = function () {
 
         return this.o.bridge || [];
@@ -96,9 +102,10 @@ define([
 
     ChartItem.prototype.export = function () {
 
-        var process = this._getProcess();
+        var process = this._getProcess(),
+            options = this._getOptions();
 
-        amplify.publish(E.EXPORT_DATA, process);
+        amplify.publish(E.EXPORT_DATA, process, options);
 
     };
 

@@ -17,6 +17,7 @@ define([
     var s = {
 
         EXPORT: '[data-role="export"]'
+        //EXPORT_ON_TOOLBAR: '.fixed-table-toolbar'
 
     };
 
@@ -37,6 +38,12 @@ define([
 
         // TODO: leave exportRequest?
         return this.o.filter || this.o.config.exportRequest || [];
+
+    };
+
+    TableItem.prototype._getOptions = function () {
+
+        return this.o.bridge ||{};
 
     };
 
@@ -86,9 +93,10 @@ define([
 
     TableItem.prototype.export = function () {
 
-        var process = this._getProcess();
+        var process = this._getProcess(),
+            options = this._getOptions();
 
-        amplify.publish(E.EXPORT_DATA, process);
+        amplify.publish(E.EXPORT_DATA, process, options);
 
     };
 
