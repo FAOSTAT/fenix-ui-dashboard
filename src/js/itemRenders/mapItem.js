@@ -39,6 +39,8 @@ define([
 
     MapItem.prototype._getProcess = function () {
 
+        log.info(this.o.config.layer)
+
         return this.o.filter || [];
 
     };
@@ -61,9 +63,11 @@ define([
 
     MapItem.prototype._onQuerySuccess = function (model) {
 
+        var layerOptions = this.o.config.layer || {};
+
         //amplify.publish(E.LOADING_HIDE, {container: this.o.config.container});
 
-        this.mapCreator.addLayer(model);
+        this.mapCreator.addLayer(model, layerOptions);
         this.mapCreator.addCountryBoundaries();
 
         this.enableExport();
