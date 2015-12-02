@@ -97,6 +97,7 @@ define([
 
     LM.prototype.clear = function () {
 
+        this.$gridContainer.empty();
         //this.grid.clear();
     };
 
