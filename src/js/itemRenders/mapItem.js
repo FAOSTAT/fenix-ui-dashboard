@@ -27,9 +27,8 @@ define([
 
         this._bindEventListeners();
 
-        this.mapCreator = new MapCreator();
-
-        this.mapCreator.render(this.o.config);
+/*        this.mapCreator = new MapCreator();
+        this.mapCreator.render(this.o.config);*/
 
     }
 
@@ -55,7 +54,7 @@ define([
 
         var process = this._getProcess();
 
-        //amplify.publish(E.LOADING_SHOW, {container: this.o.config.container});
+        amplify.publish(E.LOADING_SHOW, {container: this.o.config.container});
 
         this.bridge.query(process).then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));
 
@@ -63,18 +62,32 @@ define([
 
     MapItem.prototype._onQuerySuccess = function (model) {
 
-        var layerOptions = this.o.config.layer || {};
+        amplify.publish(E.LOADING_HIDE, {container: this.o.config.container});
 
-        //amplify.publish(E.LOADING_HIDE, {container: this.o.config.container});
+        var self = this;
+
+        this.mapCreator = new MapCreator();
+        this.mapCreator.render(this.o.config).then(function() {
+            self._createJoinLayer(model);
+        });
+
+
+    };
+
+    MapItem.prototype._createJoinLayer = function (model) {
+
+        var layerOptions = this.o.config.layer || {};
 
         this.mapCreator.addLayer(model, layerOptions);
         this.mapCreator.addCountryBoundaries();
 
         this.enableExport();
-
     };
 
+
     MapItem.prototype._onQueryError = function () {
+
+        amplify.publish(E.LOADING_HIDE, {container: this.o.config.container});
 
         log.error("Query error");
 

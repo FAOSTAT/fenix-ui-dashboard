@@ -102,6 +102,8 @@ define([
 
     TableItem.prototype._onQueryError = function () {
 
+        amplify.publish(E.LOADING_HIDE, {container: this.o.config.container});
+
         log.error("Query error");
 
     };
