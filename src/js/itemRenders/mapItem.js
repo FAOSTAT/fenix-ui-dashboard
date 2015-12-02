@@ -121,7 +121,7 @@ define([
 
        this._unbindEventListeners();
 
-        this.$el.remove();
+       this.$el.remove();
 
     };
 
