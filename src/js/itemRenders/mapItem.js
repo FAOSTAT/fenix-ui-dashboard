@@ -157,6 +157,8 @@ define([
 
        this._unbindEventListeners();
 
+       this.mapCreator.destroy();
+
        this.$el.remove();
 
     };
