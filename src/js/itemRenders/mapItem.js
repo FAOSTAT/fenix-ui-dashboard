@@ -93,7 +93,7 @@ define([
 
 
             // added dirty baselyaer
-            self.mapCreator.adapter.fenixMap.map.addLayer(CartoDB_PositronNoLabels);
+            self.mapCreator.adapter.fenixMap.map.addLayer(CartoDB_Positron);
 
             self._createJoinLayer(model);
         });
@@ -112,11 +112,13 @@ define([
         var CartoDB_PositronOnlyLabels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
             subdomains: 'abcd',
-            maxZoom: 19
+            maxZoom: 19,
+           // zIndex: 100000,
+            opacity: 0.7
         });
 
         // added dirty labels
-        this.mapCreator.adapter.fenixMap.map.addLayer(CartoDB_PositronOnlyLabels);
+        //this.mapCreator.adapter.fenixMap.map.addLayer(CartoDB_PositronOnlyLabels);
 
         this.enableExport();
     };
