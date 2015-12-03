@@ -108,7 +108,8 @@ define([
             modelOptions = this.o.config.adapter || {};
 
         this.mapCreator.addLayer(model, layerOptions, modelOptions);
-        //this.mapCreator.addCountryBoundaries();
+        this.mapCreator.addCountryBoundaries();
+
 
         var CartoDB_PositronOnlyLabels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
