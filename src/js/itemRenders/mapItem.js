@@ -5,8 +5,9 @@ define([
     'underscore',
     'fx-m-c/start',
     'fx-ds/config/events',
-    'amplify'
-], function ($, log, _, MapCreator, E) {
+    'leaflet-image',
+    'amplify',
+], function ($, log, _, MapCreator, E, leafletImage) {
 
     'use strict';
 
@@ -107,7 +108,7 @@ define([
             modelOptions = this.o.config.adapter || {};
 
         this.mapCreator.addLayer(model, layerOptions, modelOptions);
-        this.mapCreator.addCountryBoundaries();
+        //this.mapCreator.addCountryBoundaries();
 
         var CartoDB_PositronOnlyLabels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
@@ -148,6 +149,22 @@ define([
             options = this._getOptions();
 
         amplify.publish(E.EXPORT_DATA, process, options);
+
+
+/*        var map = this.mapCreator.adapter.fenixMap.map;
+        leafletImage(map, function(err, canvas) {
+
+            // now you have canvas
+            // example thing to do with that canvas:
+            var img = document.createElement('img');
+            var dimensions = map.getSize();
+            img.width = dimensions.x;
+            img.height = dimensions.y;
+            img.src = canvas.toDataURL();
+            $('body').append(img);
+            // document.getElementById('images').innerHTML = '';
+            // document.getElementById('images').appendChild(img);
+        });*/
 
     };
 
