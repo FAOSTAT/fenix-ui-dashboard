@@ -67,7 +67,34 @@ define([
         var self = this;
 
         this.mapCreator = new MapCreator();
-        this.mapCreator.render(this.o.config).then(function() {
+        this.mapCreator.render(this.o.config).then(function () {
+
+            //log.info("here")
+
+            var CartoDB_Positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+                subdomains: 'abcd',
+                maxZoom: 19,
+                zIndex: 0
+            });
+
+            var CartoDB_PositronNoLabels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+                subdomains: 'abcd',
+                maxZoom: 19,
+                zIndex: 0
+            });
+
+            var Esri_WorldGrayCanvas = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+                maxZoom: 16,
+                zIndex: 0
+            });
+
+
+            // added dirty baselyaer
+            self.mapCreator.adapter.fenixMap.map.addLayer(CartoDB_PositronNoLabels);
+
             self._createJoinLayer(model);
         });
 
@@ -80,6 +107,15 @@ define([
 
         this.mapCreator.addLayer(model, layerOptions);
         this.mapCreator.addCountryBoundaries();
+
+        var CartoDB_PositronOnlyLabels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        });
+
+        // added dirty labels
+        this.mapCreator.adapter.fenixMap.map.addLayer(CartoDB_PositronOnlyLabels);
 
         this.enableExport();
     };
