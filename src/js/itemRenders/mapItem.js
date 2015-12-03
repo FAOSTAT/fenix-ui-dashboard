@@ -103,9 +103,10 @@ define([
 
     MapItem.prototype._createJoinLayer = function (model) {
 
-        var layerOptions = this.o.config.layer || {};
+        var layerOptions = this.o.config.layer || {},
+            modelOptions = this.o.config.adapter || {};
 
-        this.mapCreator.addLayer(model, layerOptions);
+        this.mapCreator.addLayer(model, layerOptions, modelOptions);
         this.mapCreator.addCountryBoundaries();
 
         var CartoDB_PositronOnlyLabels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
