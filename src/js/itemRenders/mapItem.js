@@ -92,9 +92,24 @@ define([
                 zIndex: 0
             });
 
+            var Acetate_hillshading = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/hillshading/{z}/{x}/{y}.png', {
+                attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
+                subdomains: '0123',
+                minZoom: 2,
+                maxZoom: 18,
+                zIndex: 100
+            });
+
+            var Esri_WorldPhysical = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service',
+                maxZoom: 8,
+                zIndex: 0,
+                opacity: 0.4
+            });
+
 
             // added dirty baselyaer
-            self.mapCreator.adapter.fenixMap.map.addLayer(CartoDB_Positron);
+            self.mapCreator.adapter.fenixMap.map.addLayer(Esri_WorldPhysical);
 
             self._createJoinLayer(model);
         });
@@ -115,12 +130,12 @@ define([
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
             subdomains: 'abcd',
             maxZoom: 19,
-           // zIndex: 100000,
-            opacity: 0.7
+            zIndex: 100000,
+            opacity: 0.9
         });
 
         // added dirty labels
-        //this.mapCreator.adapter.fenixMap.map.addLayer(CartoDB_PositronOnlyLabels);
+        this.mapCreator.adapter.fenixMap.map.addLayer(CartoDB_PositronOnlyLabels);
 
         this.enableExport();
     };
