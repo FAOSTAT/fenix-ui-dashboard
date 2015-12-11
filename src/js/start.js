@@ -283,7 +283,7 @@ define([
 
     DS.prototype._destroyItems = function () {
 
-        log.warn('TODO Dashboard: handle items destroy', this.o._name);
+        //log.warn('TODO Dashboard: handle items destroy', this.o._name);
 
         //Destroy items
         _.each(this.items, function (item) {
