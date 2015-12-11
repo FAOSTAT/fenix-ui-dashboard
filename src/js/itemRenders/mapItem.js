@@ -6,7 +6,7 @@ define([
     'fx-m-c/start',
     'fx-ds/config/events',
     'leaflet-image',
-    'amplify',
+    'amplify'
 ], function ($, log, _, MapCreator, E, leafletImage) {
 
     'use strict';
@@ -14,9 +14,9 @@ define([
     var defaultOptions = {
 
         output_type: "csv"
-    };
 
-    var s = {
+    },
+        s = {
 
         EXPORT: '[data-role="export"]'
 
@@ -39,8 +39,6 @@ define([
 
     MapItem.prototype._getProcess = function () {
 
-        log.info(this.o.config.layer)
-
         return this.o.filter || [];
 
     };
@@ -55,7 +53,7 @@ define([
 
         var process = this._getProcess();
 
-        amplify.publish(E.LOADING_SHOW, {container: this.o.config.container});
+        amplify.publish(E.LOADING_SHOW, {container: this.$el});
 
         this.bridge.query(process).then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));
 
@@ -63,7 +61,7 @@ define([
 
     MapItem.prototype._onQuerySuccess = function (model) {
 
-        amplify.publish(E.LOADING_HIDE, {container: this.o.config.container});
+        amplify.publish(E.LOADING_HIDE, {container: this.$el});
 
         var self = this;
 
@@ -143,7 +141,7 @@ define([
 
     MapItem.prototype._onQueryError = function () {
 
-        amplify.publish(E.LOADING_HIDE, {container: this.o.config.container});
+        amplify.publish(E.LOADING_HIDE, {container: this.$el});
 
         log.error("Query error");
 
@@ -193,9 +191,13 @@ define([
 
        this._unbindEventListeners();
 
-       this.mapCreator.destroy();
+        if ( this.mapCreator) {
+            this.mapCreator.destroy();
+        }
 
-       this.$el.remove();
+        if (this.$el) {
+            this.$el.remove();
+        }
 
     };
 

@@ -116,7 +116,11 @@ define([
 
        this._unbindEventListeners();
 
-        this.$el.remove();
+
+        if (this.$el) {
+            this.$el.remove();
+        }
+
     };
 
     return TableItem;

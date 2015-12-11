@@ -8,7 +8,7 @@ define([
     'fx-ds/config/config-default',
     "text!fx-ds/templates/dashboard.hbs",
     "fx-common/structures/fx-fluid-grid",
-    "loglevel",
+    "loglevel"
 ], function ($, _, Err, E,  C, DC, template, FluidGrid, log) {
 
     'use strict';
@@ -40,11 +40,13 @@ define([
     LM.prototype._initLayout = function () {
 
         switch (this.o.layout.toLowerCase()) {
+
             case 'injected' :
 
                 this.addItem = this._addItemInjectedLayout;
 
                 break;
+
             case 'fluid' :
 
                 this.$container.html(template);
@@ -79,7 +81,7 @@ define([
 
         if ($container.length === 0) {
             log.error(Err.INVALID_ITEM_CONTAINER_ON_INJECTED_LAYOUT, item);
-            throw new Error(Err.INVALID_ITEM_CONTAINER_ON_INJECTED_LAYOUT)
+            throw new Error(Err.INVALID_ITEM_CONTAINER_ON_INJECTED_LAYOUT);
         }
 
         $container.html(html);
@@ -95,20 +97,22 @@ define([
 
     };
 
-    LM.prototype.clear = function () {
-
-        this.$gridContainer.empty();
-        //this.grid.clear();
-    };
+    //LM.prototype.clear = function () {
+    //
+    //    this.$gridContainer.empty();
+    //
+    //};
 
     LM.prototype._unbindEventListeners = function () {
-
 
     };
 
     LM.prototype.destroy = function () {
 
         this._unbindEventListeners();
+
+        //log.info(this.$gridContainer);
+        this.$gridContainer.empty();
 
         //this.grid.destroy();
 

@@ -254,7 +254,8 @@ define([
         $.extend(true, renderer, {
             bridge: bridge,
             el: itemTmpl,
-            $el: $(itemTmpl)
+            $el: $(itemTmpl),
+            _name: this.o._name
         });
 
         //take track of displayed item
@@ -282,25 +283,33 @@ define([
 
     DS.prototype._destroyItems = function () {
 
+        log.warn('TODO Dashboard: handle items destroy', this.o._name);
+
         //Destroy items
         _.each(this.items, function (item) {
+
             if (item.destroy) {
+                // TODO: handle item destroy
                 item.destroy();
             }
+
         });
 
+        this.items = [];
+
     };
 
-    DS.prototype.clear = function () {
+/*    DS.prototype.clear = function () {
 
         this.layout.clear();
-    };
+
+    };*/
 
     DS.prototype.destroy = function () {
 
         this._unbindEventListeners();
 
-        if (this.layout && this.layout.destroy) {
+        if (this.layout) {
             this.layout.destroy();
         }
 

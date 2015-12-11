@@ -10,9 +10,7 @@ define([
 
     'use strict';
 
-    var defaultOptions = {
-
-    };
+    var defaultOptions = { };
 
     function CustomItem(options) {
         this.o = $.extend(true, {}, defaultOptions, options);
@@ -39,8 +37,6 @@ define([
     CustomItem.prototype.render = function () {
 
         log.info('render');
-
-        log.info(this.o)
 
         // this is used to switch if a model is gave or not to the widget
         if (this.o.config.hasOwnProperty("model")) {
@@ -75,12 +71,9 @@ define([
     // internal rendered
     CustomItem.prototype._render = function (model) {
 
-        log.info(model)
-
         var o = this.o.config,
             model = model || {},
             template = o.template.hasOwnProperty('html')? o.template.html || null: null;
-
 
 
         // TODO: add labels and checks!
@@ -97,11 +90,11 @@ define([
 
     CustomItem.prototype.enableExport = function () {
 
-        var self = this;
+        //var self = this;
 
-        $(this.o.config.container).find(s.EXPORT).on('click', function(e){
-            self.export();
-        });
+        //$(this.o.config.container).find(s.EXPORT).on('click', function(e){
+        //    self.export();
+        //});
 
     };
 
@@ -128,6 +121,11 @@ define([
 
     CustomItem.prototype.destroy = function () {
 
+        this._unbindEventListeners();
+
+        if (this.$el) {
+            this.$el.remove();
+        }
     };
 
     return CustomItem;

@@ -13,15 +13,14 @@ define([
 
     var defaultOptions = {
 
-    };
-
-    var s = {
+    }, s = {
 
         EXPORT: '[data-role="export"]'
 
     };
 
     function ChartItem(options) {
+
         this.o = $.extend(true, {}, defaultOptions, options);
 
         this._bindEventListeners();
@@ -56,7 +55,7 @@ define([
 
         var process = this._getProcess();
 
-        amplify.publish(E.LOADING_SHOW, {container: this.o.config.container});
+        amplify.publish(E.LOADING_SHOW, {container: this.$el});
 
         this.bridge.query(process)
             .then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));
@@ -78,7 +77,9 @@ define([
 
     ChartItem.prototype.renderCharts = function(creator) {
 
-        creator.render(this.o.config);
+        this.chartCreator = creator;
+
+        this.chartCreator.render(this.o.config);
 
         this.enableExport();
 
@@ -86,7 +87,7 @@ define([
 
     ChartItem.prototype._onQueryError = function () {
 
-        amplify.publish(E.LOADING_HIDE, {container: this.o.config.container});
+        amplify.publish(E.LOADING_HIDE, {container: this.$el});
 
         log.error("Query error");
 
@@ -119,8 +120,14 @@ define([
 
        this._unbindEventListeners();
 
-       // TODO: call the chartCreator destroy
-       this.$el.remove();
+        if ( this.chartCreator) {
+            this.chartCreator.destroy();
+        }
+
+        if (this.$el) {
+            this.$el.remove();
+        }
+
     };
 
     return ChartItem;
