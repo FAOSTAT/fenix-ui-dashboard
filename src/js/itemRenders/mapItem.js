@@ -191,7 +191,7 @@ define([
 
        this._unbindEventListeners();
 
-        if ( this.mapCreator) {
+        if ( this.mapCreator ) {
             this.mapCreator.destroy();
         }
 

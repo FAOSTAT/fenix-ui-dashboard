@@ -23,9 +23,13 @@ define([
 
     function FAOSTAT_bridge(options) {
 
+        log.info("DS.FAOSTAT_bridge; options", options);
+
         this.faostatAPI = new FAOSTATClientAPI();
 
         this.o = $.extend(true, {}, defaultOptions, options);
+
+        log.info("DS.FAOSTAT_bridge; o", this.o);
 
         return this;
     }
@@ -34,9 +38,11 @@ define([
 
         var requestType = (this.o.bridge)? (this.o.bridge.requestType || this.o.requestType): this.o.requestType;
 
-        if ( typeof this.faostatAPI[requestType] == 'function') {
+        if ( typeof this.faostatAPI[requestType] === 'function') {
+            log.info("DS.FAOSTAT_bridge.query; filter", filter);
             return this.faostatAPI[requestType](filter);
-        }else{
+        }
+        else {
             log.error(requestType + " not present in faostatAPI");
             throw new Error(requestType + " not present in faostatAPI");
         }

@@ -46,6 +46,8 @@ define([
 
     function DS(o) {
 
+        log.info("DS(); config", o);
+
         this.o = $.extend(true, {}, defaultOptions, o);
 
         this.items = [];
@@ -63,6 +65,8 @@ define([
 
     DS.prototype._initComponents = function () {
 
+        log.info("DS._initComponents;");
+
         this.layout = new Layout(this.o);
 
         this.itemFactory = new ItemFactory(this.o);
@@ -73,6 +77,8 @@ define([
 
 
     DS.prototype.render = function (o) {
+
+        log.info("DS.render; config", o);
 
         this.o = $.extend(true, {}, this.o, o);
 
@@ -94,6 +100,8 @@ define([
 
     DS.prototype.filter = function (filter, isOnLoad) {
 
+        log.info("DS.filter; filter", isOnLoad, filter);
+
         if (isOnLoad !== undefined && isOnLoad !== null) {
             this.o.isOnLoad = isOnLoad;
         }
@@ -105,32 +113,41 @@ define([
 
     DS.prototype._applyDefaultFilter = function (filter) {
 
-        if (this.o.items && Array.isArray(this.o.items)) {
+        var self = this;
 
-            _.each(this.o.items, _.bind(function (item) {
+        log.info("DS._applyDefaultFilter; filter", filter);
+        log.info("DS._applyDefaultFilter; items", this.o.items);
+
+        if (self.o.items && Array.isArray(self.o.items)) {
+
+            _.each(self.o.items, function (item) {
+
+                log.info("DS._applyDefaultFilter; item", item);
 
                 // add lang to the item if exists
-                if (this.o.lang) {
-                    item.lang = this.o.lang;
+                if (self.o.lang) {
+                    item.lang = self.o.lang;
                 }
 
-                if (this.o.labels) {
-                    item.labels = $.extend(true, {}, this.o.labels, item.labels);
+                if (self.o.labels) {
+                    item.labels = $.extend(true, {}, self.o.labels, item.labels);
                 }
 
-
-                if (this.o.bridge) {
-                    item.bridge = $.extend(true, {}, this.o.bridge, item.bridge);
+                if (self.o.bridge) {
+                    item.bridge = $.extend(true, {}, self.o.bridge, item.bridge);
                 }
 
-                item.filter = $.extend(true, {}, filter, item.filter);
+                log.info("DS._applyDefaultFilter; item.filter", item.filter);
+                item.filter = $.extend(true, {}, filter, item.filter || {});
 
-            }, this));
+            });
         }
 
     };
 
     DS.prototype._renderItems = function (filter) {
+
+        log.info("DS._renderItems; filter", filter);
 
         if (this.o.items && Array.isArray(this.o.items)) {
 
@@ -282,6 +299,8 @@ define([
     };
 
     DS.prototype._destroyItems = function () {
+
+        log.info("DS._destroyItems;");
 
         //log.warn('TODO Dashboard: handle items destroy', this.o._name);
 

@@ -115,8 +115,7 @@ define([
 
     TableItem.prototype.destroy = function () {
 
-       this._unbindEventListeners();
-
+        this._unbindEventListeners();
 
         if (this.$el) {
             this.$el.remove();
