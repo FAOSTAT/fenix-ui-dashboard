@@ -91,7 +91,9 @@ define([
 
         this._applyDefaultFilter(this.o.defaultFilter || {});
 
-        if (this.o.render === true) {
+        log.info("DS.render; calling _renderItems()", this.o);
+
+        if (this.o.render !== undefined && this.o.render === true) {
             this._renderItems();
         }
 
@@ -142,6 +144,8 @@ define([
 
             });
         }
+
+        log.info("DS._applyDefaultFilter; end");
 
     };
 
