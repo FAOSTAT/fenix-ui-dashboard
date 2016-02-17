@@ -66,10 +66,21 @@ define([
         //this.o.model = model;
         this.o.model = model;
 
-        var chartConfig = $.extend(true, {}, this.o.config, {
-            model : this.o.model,
-            onReady: _.bind(this.renderCharts, this)
-        });
+        // add to default config the chart export parameters
+        this.o.config = $.extend(true, {},
+            this.o.config,
+            this.addExportChartImageParameters(this.o.config)
+        );
+
+        var chartConfig = $.extend(true, {},
+            this.o.config,
+            {
+                model : this.o.model,
+                onReady: _.bind(this.renderCharts, this)
+            }
+        );
+
+        log.info(chartConfig);
 
         this.chartCreator.init(chartConfig);
 
@@ -85,6 +96,36 @@ define([
 
     };
 
+    ChartItem.prototype.addExportChartImageParameters = function(config) {
+
+        var title = config.hasOwnProperty('template')? config.template.title: null,
+            subtitle = config.hasOwnProperty('template')? config.template.subtitle: null;
+
+        return {
+            creator: {
+                chartObj: {
+                    exporting: {
+                        enabled: true,
+                        chartOptions:{
+                            title: {
+                                enabled: true,
+                                text: title
+                            },
+                            subtitle: {
+                                enabled: true,
+                                text:  subtitle
+                            },
+                            legend:{
+                                enabled:true
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+    };
+
     ChartItem.prototype._onQueryError = function () {
 
         amplify.publish(E.LOADING_HIDE, {container: this.$el});
@@ -97,7 +138,7 @@ define([
 
         var self = this;
 
-        $(this.o.config.container).find(s.EXPORT).on('click', function(e){
+        $(this.o.config.container).find(s.EXPORT).on('click', function(){
             self.export();
         });
 
@@ -113,6 +154,8 @@ define([
     };
 
     ChartItem.prototype._unbindEventListeners = function () {
+
+        $(this.o.config.container).find(s.EXPORT).off('click');
 
     };
 
