@@ -17,7 +17,7 @@ define([
 
     var defaultOptions = {
 
-        requestType: "data" // data/rankings
+        requestType: "databean" // data/rankings
 
     };
 
