@@ -13,14 +13,14 @@ define([
 
     var defaultOptions = {
 
-        output_type: "csv"
+            output_type: "csv"
 
-    },
+        },
         s = {
 
-        EXPORT: '[data-role="export"]'
+            EXPORT: '[data-role="export"]'
 
-    };
+        };
 
     function MapItem(options) {
 
@@ -28,8 +28,8 @@ define([
 
         this._bindEventListeners();
 
-/*        this.mapCreator = new MapCreator();
-        this.mapCreator.render(this.o.config);*/
+        /*        this.mapCreator = new MapCreator();
+         this.mapCreator.render(this.o.config);*/
 
     }
 
@@ -68,49 +68,54 @@ define([
         this.mapCreator = new MapCreator();
         this.mapCreator.render(this.o.config).then(function () {
 
-            //log.info("here")
+            if (model.data.length > 0) {
+                var CartoDB_Positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    zIndex: 0
+                });
 
-            var CartoDB_Positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
-                subdomains: 'abcd',
-                maxZoom: 19,
-                zIndex: 0
-            });
+                var CartoDB_PositronNoLabels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    zIndex: 0
+                });
 
-            var CartoDB_PositronNoLabels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
-                subdomains: 'abcd',
-                maxZoom: 19,
-                zIndex: 0
-            });
+                var Esri_WorldGrayCanvas = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+                    maxZoom: 16,
+                    zIndex: 0
+                });
 
-            var Esri_WorldGrayCanvas = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-                attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
-                maxZoom: 16,
-                zIndex: 0
-            });
+                var Acetate_hillshading = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/hillshading/{z}/{x}/{y}.png', {
+                    attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
+                    subdomains: '0123',
+                    minZoom: 2,
+                    maxZoom: 18,
+                    zIndex: 100
+                });
 
-            var Acetate_hillshading = L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/hillshading/{z}/{x}/{y}.png', {
-                attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
-                subdomains: '0123',
-                minZoom: 2,
-                maxZoom: 18,
-                zIndex: 100
-            });
-
-            var Esri_WorldPhysical = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
-                attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service',
-                maxZoom: 8,
-                zIndex: 0,
-                opacity: 0.4
-            });
+                var Esri_WorldPhysical = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service',
+                    maxZoom: 8,
+                    zIndex: 0,
+                    opacity: 0.4
+                });
 
 
-            // added dirty baselyaer
-            self.mapCreator.adapter.fenixMap.map.addLayer(Esri_WorldPhysical);
+                // added dirty baselyaer
+                self.mapCreator.adapter.fenixMap.map.addLayer(Esri_WorldPhysical);
 
-            self._createJoinLayer(model);
+                self._createJoinLayer(model);
+            }else {
+
+                self.mapCreator.noDataAvailable();
+
+            }
         });
+
 
 
     };
@@ -165,20 +170,20 @@ define([
         amplify.publish(E.EXPORT_DATA, process, options);
 
 
-/*        var map = this.mapCreator.adapter.fenixMap.map;
-        leafletImage(map, function(err, canvas) {
+        /*        var map = this.mapCreator.adapter.fenixMap.map;
+         leafletImage(map, function(err, canvas) {
 
-            // now you have canvas
-            // example thing to do with that canvas:
-            var img = document.createElement('img');
-            var dimensions = map.getSize();
-            img.width = dimensions.x;
-            img.height = dimensions.y;
-            img.src = canvas.toDataURL();
-            $('body').append(img);
-            // document.getElementById('images').innerHTML = '';
-            // document.getElementById('images').appendChild(img);
-        });*/
+         // now you have canvas
+         // example thing to do with that canvas:
+         var img = document.createElement('img');
+         var dimensions = map.getSize();
+         img.width = dimensions.x;
+         img.height = dimensions.y;
+         img.src = canvas.toDataURL();
+         $('body').append(img);
+         // document.getElementById('images').innerHTML = '';
+         // document.getElementById('images').appendChild(img);
+         });*/
 
     };
 
@@ -189,7 +194,7 @@ define([
 
     MapItem.prototype.destroy = function () {
 
-       this._unbindEventListeners();
+        this._unbindEventListeners();
 
         if ( this.mapCreator ) {
             this.mapCreator.destroy();
