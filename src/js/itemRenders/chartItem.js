@@ -80,7 +80,7 @@ define([
             }
         );
 
-        log.info(chartConfig);
+        log.info("DS.ChartItem._onQuerySuccess; chartConfig", chartConfig);
 
         this.chartCreator.init(chartConfig);
 

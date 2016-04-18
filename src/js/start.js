@@ -168,8 +168,9 @@ define([
 
     };
 
-
     DS.prototype._prepareLabels = function (item, filter) {
+
+        log.info("DS._prepareLabels;");
 
         // TODO: check if exists
         if (item.hasOwnProperty('labels')) {
@@ -181,6 +182,7 @@ define([
                 deniedOnLoadFilter = item.deniedOnLoadFilter || [];
 
             //log.info(labels)
+            log.info("DS._prepareLabels; labels", labels);
 
             _.each(labels, function(label, key) {
 
@@ -191,6 +193,8 @@ define([
                 }
 
             });
+
+            log.info("DS._prepareLabels; filter", filter);
 
             _.each(filter, function (f) {
                 var filterKey = f.id,
@@ -211,19 +215,40 @@ define([
                 }
             });
 
+            log.info("DS._prepareLabels; originalTemplate", originalTemplate);
+
             // overwriting otiginal template
             _.each(originalTemplate, function(template, key) {
 
-                var t = Handlebars.compile(template[lang] || template);
-                originalTemplate[key] = t(labels);
+                var tmpTemplate = template[lang] || template;
+
+                if (typeof tmpTemplate === 'object') {
+                    tmpTemplate = tmpTemplate[Object.keys(tmpTemplate)[0]];
+                }
+
+                if (typeof tmpTemplate !== 'string') {
+                    log.info("DS._prepareLabels; tmpTemplate is not a string", tmpTemplate);
+                }
+                else {
+
+                    var t = Handlebars.compile(tmpTemplate);
+                    originalTemplate[key] = t(labels);
+
+                }
 
             });
+
+            log.info("DS._prepareLabels; originalTemplate", originalTemplate);
+
+            log.info(item.config.template);
 
             return $.extend(true, {}, item.config.template, originalTemplate || {});
 
         }else {
             return item.config.template;
         }
+
+        log.info("DS._prepareLabels; end");
 
     };
 

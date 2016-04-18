@@ -36,7 +36,7 @@ define([
 
     CustomItem.prototype.render = function () {
 
-        log.info('render');
+        log.info("CustomItem.render;");
 
         // this is used to switch if a model is gave or not to the widget
         if (this.o.config.hasOwnProperty("model")) {
@@ -47,7 +47,7 @@ define([
             // retrieve dinamically the data
             var process = this._getProcess();
 
-            log.info(process)
+            log.info(process);
 
             amplify.publish(E.LOADING_SHOW, {container: this.o.config.container});
 
@@ -79,7 +79,7 @@ define([
         // TODO: add labels and checks!
 
         if (template) {
-            log.info("template:", template);
+            log.info("CustomItem._render; template", template);
             var t = Handlebars.compile(template);
             $(o.container).html(t(model));
         }
