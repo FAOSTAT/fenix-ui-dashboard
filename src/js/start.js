@@ -334,14 +334,18 @@ define([
         //log.warn('TODO Dashboard: handle items destroy', this.o._name);
 
         //Destroy items
-        _.each(this.items, function (item) {
+        try  {
+            _.each(this.items, function (item) {
 
-            if (item.destroy) {
-                // TODO: handle item destroy
-                item.destroy();
-            }
+                if (item.destroy) {
+                    // TODO: handle item destroy
+                    item.destroy();
+                }
 
-        });
+            });
+        }catch(e) {
+            log.warn("Dashboard._destroyItems;", e)
+        }
 
         this.items = [];
 
@@ -355,13 +359,21 @@ define([
 
     DS.prototype.destroy = function () {
 
-        this._unbindEventListeners();
+        try  {
 
-        if (this.layout) {
-            this.layout.destroy();
+            this._unbindEventListeners();
+
+            if (this.layout) {
+                this.layout.destroy();
+            }
+
+            this._destroyItems();
+
+        }catch(e) {
+            log.warn("Dashboard.destroy;", e)
         }
 
-        this._destroyItems();
+
 
     };
 
