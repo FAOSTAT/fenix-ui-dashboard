@@ -57,8 +57,12 @@ define([
 
         amplify.publish(E.LOADING_SHOW, {container: this.$el});
 
-        this.bridge.query(process)
-            .then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));
+        //try {
+            this.bridge.query(process)
+                .then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));
+/*        }catch(e) {
+            this._onQueryError();
+        }*/
     };
 
     ChartItem.prototype._onQuerySuccess = function (model) {
