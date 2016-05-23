@@ -143,7 +143,7 @@ define([
             subdomains: 'abcd',
             maxZoom: 19,
             zIndex: 100000,
-            opacity: 0.8
+            opacity: 0.9
         });
 
         // added dirty labels
