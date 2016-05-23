@@ -80,7 +80,8 @@ define([
                     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
                     subdomains: 'abcd',
                     maxZoom: 19,
-                    zIndex: 0
+                    zIndex: 0,
+                    opacity: 0.5,
                 });
 
                 var Esri_WorldGrayCanvas = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
@@ -113,7 +114,8 @@ define([
 
 
                 // added dirty baselayer
-                self.mapCreator.adapter.fenixMap.map.addLayer(OpenStreetMap_BlackAndWhite);
+                self.mapCreator.adapter.fenixMap.map.addLayer(CartoDB_PositronNoLabels);
+                //self.mapCreator.adapter.fenixMap.map.addLayer(OpenStreetMap_BlackAndWhite);
 
                 self._createJoinLayer(model);
             }else {
