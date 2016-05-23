@@ -104,21 +104,16 @@ define([
                     opacity: 0.4
                 });
 
-                var white = L.ImageOverlay('http://www.ledr.com/colours/white.jpg', {
-                    name: 'White',
-                        type: 'imageOverlay',
-                        url: 'http://www.ledr.com/colours/white.jpg',
-                        layerParams: {
-                        noWrap: true,
-                            attribution: 'Creative Commons image found <a href="http://www.flickr.com/photos/c32/8025422440/">here</a>'
-                        }
-
+                var OpenStreetMap_BlackAndWhite = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    zIndex: 1,
+                    opacity: 0.5,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 });
 
 
-                // added dirty baselyaer
-                //self.mapCreator.adapter.fenixMap.map.addLayer(Esri_WorldPhysical);
-                //self.mapCreator.adapter.fenixMap.map.addLayer(white);
+                // added dirty baselayer
+                self.mapCreator.adapter.fenixMap.map.addLayer(OpenStreetMap_BlackAndWhite);
 
                 self._createJoinLayer(model);
             }else {
