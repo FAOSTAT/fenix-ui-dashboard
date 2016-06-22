@@ -79,14 +79,15 @@ define([
         var chartConfig = $.extend(true, {},
             this.o.config,
             {
-                model : this.o.model,
-                onReady: _.bind(this.renderCharts, this)
+                model : this.o.model
             }
         );
 
         log.info("DS.ChartItem._onQuerySuccess; chartConfig", chartConfig);
 
-        this.chartCreator.init(chartConfig);
+        this.chartCreator.init(chartConfig).then(
+            _.bind(this.renderCharts, this)
+        );
 
     };
 
@@ -94,7 +95,7 @@ define([
 
         this.chartCreator = creator;
 
-        this.chartCreator.render(this.o.config);
+        this.chartCreator.render();
 
         this.enableExport();
 
