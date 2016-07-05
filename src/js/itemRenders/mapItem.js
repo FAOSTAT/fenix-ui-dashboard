@@ -118,20 +118,21 @@ define([
                 //self.mapCreator.adapter.fenixMap.map.addLayer(OpenStreetMap_BlackAndWhite);
 
                 self._createJoinLayer(model);
+
             }else {
 
                 self.mapCreator.noDataAvailable();
 
             }
+
         });
-
-
 
     };
 
     MapItem.prototype._createJoinLayer = function (model) {
 
         var layerOptions = this.o.config.layer || {},
+            // modelOptions contains also the language is used in the adapter
             modelOptions = this.o.config.adapter || {};
 
         this.mapCreator.addLayer(model, layerOptions, modelOptions);
