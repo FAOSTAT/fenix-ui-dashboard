@@ -57,6 +57,8 @@ define([
 
         amplify.publish(E.LOADING_SHOW, {container: this.$el});
 
+        log.info("ChartItem.render;", process);
+
         //try {
             this.bridge.query(process)
                 .then(_.bind(this._onQuerySuccess, this), _.bind(this._onQueryError, this));
@@ -66,6 +68,8 @@ define([
     };
 
     ChartItem.prototype._onQuerySuccess = function (model) {
+
+        log.info("ChartItem._onQuerySuccess;", model);
 
         //this.o.model = model;
         this.o.model = model;
@@ -131,11 +135,12 @@ define([
 
     };
 
-    ChartItem.prototype._onQueryError = function () {
+    ChartItem.prototype._onQueryError = function (e) {
 
         amplify.publish(E.LOADING_HIDE, {container: this.$el});
 
-        log.error("Query error");
+        log.error("ChartItem._onQueryError;", e);
+
 
     };
 
