@@ -7,7 +7,7 @@ define([
     // TODO: this is should be
     'fx-ds/config/events',
     'amplify'
-], function ($,log,  _, ChartCreator, E) {
+], function ($, log,  _, ChartCreator, E) {
 
     'use strict';
 
@@ -20,6 +20,8 @@ define([
     };
 
     function ChartItem(options) {
+
+        log.info("TEST:", options);
 
         this.o = $.extend(true, {}, defaultOptions, options);
 
@@ -158,6 +160,8 @@ define([
 
         var process = this._getProcess(),
             options = this._getOptions();
+
+        log.info("ChartItem.export;", process, options);
 
         amplify.publish(E.EXPORT_DATA, process, options);
 
