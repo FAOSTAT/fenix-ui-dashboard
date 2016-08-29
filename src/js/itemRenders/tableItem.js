@@ -101,11 +101,11 @@ define([
 
     };
 
-    TableItem.prototype._onQueryError = function () {
+    TableItem.prototype._onQueryError = function (e) {
 
         amplify.publish(E.LOADING_HIDE, {container: this.o.config.container});
 
-        log.error("Query error");
+        log.error("TableItem._onQueryError", e);
 
     };
 

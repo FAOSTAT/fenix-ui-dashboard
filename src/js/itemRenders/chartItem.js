@@ -21,8 +21,6 @@ define([
 
     function ChartItem(options) {
 
-        log.info("TEST:", options);
-
         this.o = $.extend(true, {}, defaultOptions, options);
 
         this._bindEventListeners();
@@ -59,7 +57,7 @@ define([
 
         amplify.publish(E.LOADING_SHOW, {container: this.$el});
 
-        log.info("ChartItem.render;", process);
+       // log.info("ChartItem.render;", process);
 
         //try {
             this.bridge.query(process)
@@ -71,7 +69,7 @@ define([
 
     ChartItem.prototype._onQuerySuccess = function (model) {
 
-        log.info("ChartItem._onQuerySuccess;", model);
+        //log.info("ChartItem._onQuerySuccess;", model);
 
         //this.o.model = model;
         this.o.model = model;
@@ -89,7 +87,7 @@ define([
             }
         );
 
-        log.info("DS.ChartItem._onQuerySuccess; chartConfig", chartConfig);
+        //log.info("DS.ChartItem._onQuerySuccess; chartConfig", chartConfig);
 
         this.chartCreator.init(chartConfig).then(
             _.bind(this.renderCharts, this)
@@ -143,7 +141,6 @@ define([
 
         log.error("ChartItem._onQueryError;", e);
 
-
     };
 
     ChartItem.prototype.enableExport = function () {
@@ -161,7 +158,7 @@ define([
         var process = this._getProcess(),
             options = this._getOptions();
 
-        log.info("ChartItem.export;", process, options);
+        //log.info("ChartItem.export;", process, options);
 
         amplify.publish(E.EXPORT_DATA, process, options);
 

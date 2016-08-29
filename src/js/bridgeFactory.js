@@ -1,10 +1,11 @@
 /*global define, amplify */
 define([
     'jquery',
-    'fx-ds/bridges/d3p',
     'fx-ds/bridges/faostat',
     'amplify'
-], function ($, D3P, FAOSTAT) {
+], function ($,
+             FAOSTAT
+) {
 
     'use strict';
 
@@ -16,7 +17,6 @@ define([
 
         this.bridges = {};
 
-        this.bridges.D3P = D3P;
         this.bridges.FAOSTAT = FAOSTAT;
 
         this._bindEventListeners();
@@ -31,9 +31,6 @@ define([
         var type = this.o.bridge.type || 'd3p';
 
         switch (type.toLocaleLowerCase()) {
-            case "d3p" :
-                return new this.bridges.D3P(item);
-                break;
             case "wds" :
                 break;
             case "faostat" :

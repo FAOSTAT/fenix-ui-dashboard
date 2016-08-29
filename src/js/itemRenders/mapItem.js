@@ -154,11 +154,11 @@ define([
     };
 
 
-    MapItem.prototype._onQueryError = function () {
+    MapItem.prototype._onQueryError = function (e) {
 
         amplify.publish(E.LOADING_HIDE, {container: this.$el});
 
-        log.error("Query error");
+        log.error("MapItem._onQueryError", e);
 
     };
 
