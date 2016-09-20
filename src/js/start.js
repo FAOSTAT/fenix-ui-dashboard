@@ -46,7 +46,7 @@ define([
 
     function DS(o) {
 
-        log.info("DS(); config", o);
+        //log.info("DS(); config", o);
 
         this.o = $.extend(true, {}, defaultOptions, o);
 
@@ -65,7 +65,7 @@ define([
 
     DS.prototype._initComponents = function () {
 
-        log.info("DS._initComponents;");
+        //log.info("DS._initComponents;");
 
         this.layout = new Layout(this.o);
 
@@ -78,7 +78,7 @@ define([
 
     DS.prototype.render = function (o) {
 
-        log.info("DS.render; config", o);
+        //log.info("DS.render; config", o);
 
         this.o = $.extend(true, {}, this.o, o);
 
@@ -91,7 +91,7 @@ define([
 
         this._applyDefaultFilter(this.o.defaultFilter || {});
 
-        log.info("DS.render; calling _renderItems()", this.o);
+        //log.info("DS.render; calling _renderItems()", this.o);
 
         if (this.o.render !== undefined && this.o.render === true) {
             this._renderItems();
@@ -102,7 +102,7 @@ define([
 
     DS.prototype.filter = function (filter, isOnLoad) {
 
-        log.info("DS.filter; filter", isOnLoad, filter);
+        //log.info("DS.filter; filter", isOnLoad, filter);
 
         if (isOnLoad !== undefined && isOnLoad !== null) {
             this.o.isOnLoad = isOnLoad;
@@ -117,14 +117,14 @@ define([
 
         var self = this;
 
-        log.info("DS._applyDefaultFilter; filter", filter);
-        log.info("DS._applyDefaultFilter; items", this.o.items);
+        //log.info("DS._applyDefaultFilter; filter", filter);
+        //log.info("DS._applyDefaultFilter; items", this.o.items);
 
         if (self.o.items && Array.isArray(self.o.items)) {
 
             _.each(self.o.items, function (item) {
 
-                log.info("DS._applyDefaultFilter; item", item);
+                //log.info("DS._applyDefaultFilter; item", item);
 
                 // add lang to the item if exists
                 if (self.o.lang) {
@@ -145,13 +145,13 @@ define([
             });
         }
 
-        log.info("DS._applyDefaultFilter; end");
+        //log.info("DS._applyDefaultFilter; end");
 
     };
 
     DS.prototype._renderItems = function (filter) {
 
-        log.info("DS._renderItems; filter", filter);
+        //log.info("DS._renderItems; filter", filter);
 
         if (this.o.items && Array.isArray(this.o.items)) {
 
@@ -170,7 +170,7 @@ define([
 
     DS.prototype._prepareLabels = function (item, filter) {
 
-        log.info("DS._prepareLabels;");
+        //log.info("DS._prepareLabels;");
 
         // TODO: check if exists
         if (item.hasOwnProperty('labels')) {
@@ -182,7 +182,7 @@ define([
                 deniedOnLoadFilter = item.deniedOnLoadFilter || [];
 
             //log.info(labels)
-            log.info("DS._prepareLabels; labels", labels);
+            //log.info("DS._prepareLabels; labels", labels);
 
             _.each(labels, function(label, key) {
 
@@ -194,7 +194,7 @@ define([
 
             });
 
-            log.info("DS._prepareLabels; filter", filter);
+            //log.info("DS._prepareLabels; filter", filter);
 
             _.each(filter, function (f) {
                 var filterKey = f.id,
@@ -215,7 +215,7 @@ define([
                 }
             });
 
-            log.info("DS._prepareLabels; originalTemplate", originalTemplate);
+            //log.info("DS._prepareLabels; originalTemplate", originalTemplate);
 
             // overwriting otiginal template
             _.each(originalTemplate, function(template, key) {
@@ -238,17 +238,15 @@ define([
 
             });
 
-            log.info("DS._prepareLabels; originalTemplate", originalTemplate);
+           // log.info("DS._prepareLabels; originalTemplate", originalTemplate);
 
-            log.info(item.config.template);
+           // log.info(item.config.template);
 
             return $.extend(true, {}, item.config.template, originalTemplate || {});
 
         }else {
             return item.config.template;
         }
-
-        log.info("DS._prepareLabels; end");
 
     };
 
@@ -300,8 +298,7 @@ define([
         $.extend(true, renderer, {
             bridge: bridge,
             el: itemTmpl,
-            $el: $(itemTmpl),
-            _name: this.o._name
+            $el: $(itemTmpl)
         });
 
         //take track of displayed item
@@ -313,14 +310,16 @@ define([
 
     DS.prototype._compileItemTemplate = function (item) {
 
+        var itemTempl = $.extend(true, {}, item);
+
         // TODO: remove it from here. Quick fix for the fluid layout
-        item.id = item.id || Math.round((Math.pow(36, 10 + 1) - Math.random() * Math.pow(36, 10))).toString(36).slice(1);
-        item.container = item.container || "#" + item.id;
-        item.config.container = item.container;
+        itemTempl.id = itemTempl.id || Math.round((Math.pow(36, 10 + 1) - Math.random() * Math.pow(36, 10))).toString(36).slice(1);
+        itemTempl.container = itemTempl.container || "#" + itemTempl.id;
+        item.config.container = itemTempl.container;
 
         var template = Handlebars.compile(itemTemplate);
 
-        return $(template(item))[0];
+        return $(template(itemTempl))[0];
     };
 
     DS.prototype._unbindEventListeners = function () {
@@ -330,8 +329,6 @@ define([
     DS.prototype._destroyItems = function () {
 
         log.info("DS._destroyItems;");
-
-        //log.warn('TODO Dashboard: handle items destroy', this.o._name);
 
         //Destroy items
         try  {
@@ -351,11 +348,13 @@ define([
 
     };
 
-/*    DS.prototype.clear = function () {
+    DS.prototype.clear = function () {
 
-        this.layout.clear();
+        if (this.layout) {
+            this.layout.destroy();
+        }
 
-    };*/
+    };
 
     DS.prototype.destroy = function () {
 
@@ -372,8 +371,6 @@ define([
         }catch(e) {
             log.warn("Dashboard.destroy;", e)
         }
-
-
 
     };
 

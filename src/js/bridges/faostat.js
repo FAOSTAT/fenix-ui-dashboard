@@ -17,17 +17,14 @@ define([
 
     var defaultOptions = {
 
-        requestType: "databean" // data/rankings
+        //requestType: "databean" // data/rankings
+        requestType: "data" // data/rankings
 
     };
 
     function FAOSTAT_bridge(options) {
 
-        log.info("DS.FAOSTAT_bridge; options", options);
-
         this.o = $.extend(true, {}, defaultOptions, options);
-
-        log.info("DS.FAOSTAT_bridge; o", this.o);
 
         return this;
     }
@@ -37,7 +34,7 @@ define([
         var requestType = (this.o.bridge)? (this.o.bridge.requestType || this.o.requestType): this.o.requestType;
 
         if ( typeof API[requestType] === 'function') {
-            log.info("DS.FAOSTAT_bridge.query; filter", filter);
+            //log.info("DS.FAOSTAT_bridge.query; filter", filter);
             return API[requestType](filter);
         }
         else {

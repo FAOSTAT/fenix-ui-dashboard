@@ -22,6 +22,9 @@ define([
     function ChartItem(options) {
 
         this.o = $.extend(true, {}, defaultOptions, options);
+        this.o.originalOptions =  $.extend(true, {},   this.o);
+
+        log.info(this.o.originalOptions);
 
         this._bindEventListeners();
 
@@ -168,6 +171,10 @@ define([
 
         $(this.o.config.container).find(s.EXPORT).off('click');
 
+    };
+
+    ChartItem.prototype.getOptions = function() {
+        return this.o.originalOptions;
     };
 
     ChartItem.prototype.destroy = function () {

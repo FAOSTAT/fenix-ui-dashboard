@@ -4,7 +4,7 @@ define([
     'loglevel',
     'underscore',
     'fs-t-c/table',
-    //'lib/table/table',
+    //'fs-dt-c/table',
     'fx-ds/config/events',
     'amplify'
 ], function ($, log, _, TableCreator, E) {
