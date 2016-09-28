@@ -5,9 +5,11 @@ define([
     'underscore',
     'fx-m-c/start',
     'fx-ds/config/events',
-    'leaflet-image',
+    //'leaflet-image',
     'amplify'
-], function ($, log, _, MapCreator, E, leafletImage) {
+], function ($, log, _, MapCreator, E
+            //,leafletImage
+) {
 
     'use strict';
 
