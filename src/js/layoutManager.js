@@ -7,9 +7,12 @@ define([
     'fx-ds/config/config',
     'fx-ds/config/config-default',
     "text!fx-ds/templates/dashboard.hbs",
-    "fx-common/structures/fx-fluid-grid",
-    "loglevel"
-], function ($, _, Err, E,  C, DC, template, FluidGrid, log) {
+    "loglevel",
+    //"fx-common/structures/fx-fluid-grid",
+], function ($, _, Err, E,  C, DC, template, log
+             // TODO: remove the fluid grid that is not used?
+             // FluidGrid
+) {
 
     'use strict';
 
@@ -52,13 +55,6 @@ define([
                 this.$container.html(template);
 
                 this.$gridContainer = this.$container.find(this.o.grid.container);
-
-                //packery
-                //var gridConf = $.extend(true, this.o.grid, {
-                //    container: this.$container.find(this.o.grid.container)[0]
-                //});
-
-                //this.grid = new FluidGrid().init(gridConf).render();
 
                 this.addItem = this._addItemFluidLayout;
 
