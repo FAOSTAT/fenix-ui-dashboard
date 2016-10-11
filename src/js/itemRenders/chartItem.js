@@ -24,8 +24,6 @@ define([
         this.o = $.extend(true, {}, defaultOptions, options);
         this.o.originalOptions =  $.extend(true, {},   this.o);
 
-        log.info(this.o.originalOptions);
-
         this._bindEventListeners();
 
         this.chartCreator = new ChartCreator();
@@ -72,8 +70,6 @@ define([
 
     ChartItem.prototype._onQuerySuccess = function (model) {
 
-        //log.info("ChartItem._onQuerySuccess;", model);
-
         //this.o.model = model;
         this.o.model = model;
 
@@ -89,8 +85,6 @@ define([
                 model : this.o.model
             }
         );
-
-        //log.info("DS.ChartItem._onQuerySuccess; chartConfig", chartConfig);
 
         this.chartCreator.init(chartConfig).then(
             _.bind(this.renderCharts, this)

@@ -139,7 +139,7 @@ define([
                     item.bridge = $.extend(true, {}, self.o.bridge, item.bridge);
                 }
 
-                log.info("DS._applyDefaultFilter; item.filter", item.filter);
+                //log.info("DS._applyDefaultFilter; item.filter", item.filter);
                 item.filter = $.extend(true, {}, filter, item.filter || {});
 
             });
@@ -328,7 +328,7 @@ define([
 
     DS.prototype._destroyItems = function () {
 
-        log.info("DS._destroyItems;");
+        //log.info("DS._destroyItems;");
 
         //Destroy items
         try  {
@@ -357,6 +357,8 @@ define([
     };
 
     DS.prototype.destroy = function () {
+
+        log.info("DS.destroy;");
 
         try  {
 

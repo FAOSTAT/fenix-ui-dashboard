@@ -36,8 +36,6 @@ define([
 
     CustomItem.prototype.render = function () {
 
-        log.info("CustomItem.render;");
-
         // this is used to switch if a model is gave or not to the widget
         if (this.o.config.hasOwnProperty("model")) {
             this._onQuerySuccess(this.o.config.model);
@@ -79,7 +77,6 @@ define([
         // TODO: add labels and checks!
 
         if (template) {
-            log.info("CustomItem._render; template", template);
             var t = Handlebars.compile(template);
             $(o.container).html(t(model));
         }
@@ -89,12 +86,6 @@ define([
     };
 
     CustomItem.prototype.enableExport = function () {
-
-        //var self = this;
-
-        //$(this.o.config.container).find(s.EXPORT).on('click', function(e){
-        //    self.export();
-        //});
 
     };
 
