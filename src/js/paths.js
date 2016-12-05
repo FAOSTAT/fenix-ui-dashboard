@@ -1,38 +1,34 @@
+/*global define*/
 define(function () {
+
+    'use strict';
 
     var config = {
 
-        paths: {
-            'fx-dashboard/start': './dashboard',
-            'fx-dashboard/html': '../../html',
-            'fx-dashboard/js': './',
-            'fx-dashboard/config' :  '../../config',
+        paths:  {
 
-            //3rd party libs
+            'fx-ds/start': './start',
+            'fx-ds/templates': './templates',
+            'fx-ds/config' : '../../config',
+            'fx-ds' : './',
+
+
             'jquery': '{FENIX_CDN}/js/jquery/2.1.1/jquery.min',
-            'handlebars': "{FENIX_CDN}/js/handlebars/2.0.0/handlebars",
+            'bootstrap': '{FENIX_CDN}/js/bootstrap/3.2/js/bootstrap.min',
+            'text': '{FENIX_CDN}/js/requirejs/plugins/text/2.0.12/text',
             'amplify' : '{FENIX_CDN}/js/amplify/1.1.2/amplify.min',
-            underscore: "{FENIX_CDN}/js/underscore/1.7.0/underscore.min",
-            i18n: "{FENIX_CDN}/js/requirejs/plugins/i18n/2.0.4/i18n",
-            text: '{FENIX_CDN}/js/requirejs/plugins/text/2.0.12/text',
-            bootstrap : "{FENIX_CDN}/js/bootstrap/3.3.4/js/bootstrap.min",
-           
+            handlebars: "{FENIX_CDN}/js/handlebars/2.0.0/handlebars"
         },
 
         shim: {
-            bootstrap : {
-                deps : ['jquery']
+
+            "bootstrap": {
+                deps: ["jquery"]
             },
-            underscore: {
-                exports: '_'
-            },
-            'amplify' : {
-                deps : ['jquery']
-            },
-            handlebars: {
-                exports: 'Handlebars'
+            amplify: {
+                deps: ['jquery'],
+                exports: 'amplify'
             }
-          
         }
     };
 
